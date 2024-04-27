@@ -89,8 +89,6 @@ document.querySelector("#tapp").onmousedown = function (e) {
 };
 
 
-};
-
 
 function clearbeeps() {
   if (metronome) clearInterval(metronome);
