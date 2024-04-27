@@ -38,7 +38,9 @@ let beatcount = 10;
 let beats = [];
 let tappinterval;
 let beatsavg;
-document.querySelector("#tapp").onmousedown = function (e) {
+
+let tapp = document.querySelector("#tapp");
+tapp.ontouchstart = tapp.onmousedown = function (e) {
 
   console.log(tappinterval);
   clearbeeps();
@@ -81,7 +83,7 @@ document.querySelector("#tapp").onmousedown = function (e) {
 			beaticon.classList.add("longpress");
 		}, 750)
 		
-	this.onmouseup = this.onmouseout = () => {
+this.ontouchend = 	this.onmouseup = this.onmouseout = () => {
 		console.log("cancel long press");
 			beaticon.classList.remove("longpress");
 		clearTimeout(longtime);
