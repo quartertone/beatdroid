@@ -1,0 +1,294 @@
+:root {
+  --basefont: 7;
+  --fontsize: var(--basefont);
+  --bg: #000;
+  --fg: #fff;
+  --ctrlbg: #222;
+  --highlight: #0ff;
+  --tranared: #f005;
+  --tranagreen: #0f05;
+  --trackred: var(--fg);
+  --trackredbg: #ff0000;
+  --homefilter: saturate(0) brightness(100);
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    --bg: #fff;
+    --fg: #000;
+    --ctrlbg: #ddf;
+    --highlight: #099;
+    --tranared: #fc07;
+    --tranagreen: #0ff4;
+    --trackred: #f00;
+    --trackredbg: var(--bg);
+    --homefilter: brightness(0);
+  }
+}
+[data-theme="light"] {
+  /* https://stackoverflow.com/questions/56300132/how-to-override-css-prefers-color-scheme-setting */
+  --bg: #fff;
+  --fg: #000;
+  --ctrlbg: #ddf;
+  --highlight: #099;
+  --tranared: #fc07;
+  --tranagreen: #0ff4;
+  --trackred: #f00;
+  --trackredbg: var(--bg);
+  --homefilter: brightness(0);
+}
+
+body {
+  background: var(--bg);
+  color: var(--fg);
+  margin: 0;
+  padding: 0;
+  transition-property: background-color, color;
+  transition: linear 0.3s;
+  position: relative;
+}
+
+a {
+  font-size: inherit;
+  text-decoration: none;
+  color: #6495ed;
+}
+
+#main {
+  position: relative;
+  height: min(98vh, 98vw);
+  width: min(98vh, 98vw);
+  margin: 0;
+  left: 50%;
+  transform: translate(-50%);
+  cursor: default;
+  font-size: min(var(--fontsize) * 1vh, var(--fontsize) * 1vw);
+  user-select: none;
+}
+
+.dot {
+  position: absolute;
+  background: transparent;
+  text-align: center;
+  height: 1em;
+  width: 1em;
+}
+
+/* centerpoint is also a dot */
+#centerpoint {
+  /* top: calc(50% - 0.5em);
+  left: calc(50% - 0.5em);
+  transform: translate(calc(-50% + 0.5em));
+  width: 1em;
+  height: 1em; */
+  font-size: min(var(--fontsize) * 1vh, var(--fontsize) * 1vw);
+}
+
+#centerpoint::after {
+  content: attr(data-mark);
+  position: absolute;
+  display: block;
+  width: 1em;
+  height: 1em;
+  text-align: center;
+  border-radius: 1em;
+  border: solid 1px #888;
+}
+
+#ctrlbar {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 0.5em 0.5em;
+}
+
+#controls {
+  position: relative;
+  width: min(25em, 90%);
+  line-height: 2em;
+  overflow:visible;
+}
+
+#settings {
+  cursor: default;
+}
+
+.ctrlbox {
+  position:absolute;
+  background: transparent;
+  transition: all 0.25s linear;
+  width: 100%;
+  height:auto;
+  /* white-space: nowrap; */
+  overflow: hidden;
+  z-index: 1005;
+  opacity: 0;
+  padding: 0.75em;
+  visibility: hidden;
+}
+
+#controls:hover .ctrlbox, .ctrlbox:hover {
+  background: var(--ctrlbg);
+  transition: all 0.25s linear;
+  opacity: 1;
+  visibility: visible;
+}
+
+button#reload {
+  /* position: absolute; */
+  /* top: 1em; */
+  /* right: 1em; */
+  padding: 0.1em 0.4em;
+  font-weight: bold;
+  height: 2em;
+}
+
+input {
+  vertical-align: middle;
+}
+
+input#markers {
+  width: 20em;
+}
+
+input#help {
+  display: none;
+}
+
+input#help + label {
+  position: absolute;
+  top: 4em;
+  right: 1em;
+  border: solid 1px var(--fg);
+  padding: 0.25em 0.4em;
+  border-radius: 0.5em;
+  display: inline-block;
+  cursor: pointer;
+  transition: all 0.5s;
+}
+
+input#help:checked + label {
+  background: red;
+}
+
+#helptext {
+  display: none;
+  white-space: initial;
+}
+
+input:checked + label + #helptext {
+  background: green;
+  display: block;
+  position: fixed;
+  left: 50%;
+  transform: translate(-50%);
+  top: 20%;
+  line-height: 1.25em;
+  padding: 0 0.5em 0.5em;
+}
+/*
+input[type="checkbox"] {
+  display: none;
+
+  + label.button {
+    display: table;
+    margin: 0.25em;
+    padding: 0 0.5em;
+    border-radius: 0.5em;
+    border: solid;
+    font-weight: bold;
+  }
+
+  &:checked + label.button {
+    color:red;
+  }
+} */
+
+input[type="checkbox"].threestate {
+  display: none;
+
+  &[data-state="1"] + label {
+    /* color: green; */
+    opacity: 1;
+    /* filler */
+  }
+
+  &[data-state="2"] + label {
+    /* color: red; */
+    opacity: 1;
+    /* filler */
+  }
+}
+
+input[type="checkbox"].slider {
+  --offborder: #888;
+  --onborder: #55c;
+  --offslider: #ccc;
+  --onslider: #55c;
+  --offbg: #777;
+  --onbg: #ddd;
+
+  appearance: none;
+  display: inline-block;
+  width: 3em;
+  height: 1.5em;
+  padding: 0.5em;
+  line-height: 1em;
+  vertical-align: middle;
+  position: relative;
+  border: 0.1em solid var(--offborder);
+  border-radius: 1em;
+  background-color: var(--offbg);
+  transition: all 0.25s linear;
+
+  &:checked {
+    border-color: var(--onborder);
+    background-color: var(--onbg);
+  }
+
+  &::after {
+    content: "";
+    position: absolute;
+    display: block;
+    height: 1em;
+    width: 1em;
+    left: 0.15em;
+    top: 50%;
+    transform: translate(0, -50%);
+    border-radius: 1em;
+    background-color: var(--offslider);
+    transition: all 0.15s linear;
+  }
+
+  &:checked::after {
+    left: calc(100% - 1.15em);
+    background-color: var(--onslider);
+  }
+}
+
+label h2 {
+  margin: 0.5em 0;
+}
+
+label h3 {
+  margin: 0.5em 0 0.25em;
+}
+
+#homeicon {
+  height: 1.5em;
+  width: 1.5em;
+  filter: var(--homefilter);
+}
+
+#sparky {
+  position: fixed;
+  display: block;
+  z-index: 1000;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+  background: transparent;
+  border: 0 solid;
+  border-radius: 50%;
+  transition: all 1.5s cubic-bezier(0, 0.91, 0.2, 0.97);
+}
