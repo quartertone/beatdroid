@@ -12,6 +12,8 @@ let bpm = 60;
 
 let metronome;
 
+let visualbeep = document.querySelector("#beaticon");
+
 
 document.querySelector("#bpm").oninput = function () {
   console.log(this.value);
@@ -65,6 +67,28 @@ document.querySelector("#tapp").onmousedown = function (e) {
   } else {
     beep();
   }
+
+
+
+
+	let longtime = setTimeout(  function(e) {
+		// let longpress = actx.currentTime - lasttime;
+		// if (longpress > 0.75) {
+			clearbeeps();
+			beats= [];
+			document.querySelector("#bpm").value = "--";
+			metrocheck.checked = false;
+			beaticon.classList.add("longpress");
+		}, 750)
+		
+	this.onmouseup = this.onmouseout = () => {
+		console.log("cancel long press");
+			beaticon.classList.remove("longpress");
+		clearTimeout(longtime);
+	}
+};
+
+
 };
 
 
@@ -132,10 +156,6 @@ metrocheck.onchange = function (e) {
 //   //metronome = !metronome;
 // };
 
-
-
-
-let visualbeep = document.querySelector("#beaticon");
 
 
 function dometronome(firstbeep = true) {
