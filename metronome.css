@@ -11,11 +11,6 @@
       border-color: red;
     }
 
-    #bpm {
-      width: 3em;
-      margin-left: 0.5em;
-    }
-
     #metrocheck {
       display: none;
     }
