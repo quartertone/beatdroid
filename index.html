@@ -210,12 +210,13 @@
 		
     btn.onmousedown = btn.ontouchstart = function (e) {
 		if (e.target.id =="bpm" || e.target.id=="bpm_out") return;
+		console.log(e.target.id);
 			if (beeper) {
 				clearTimeout(beeper);
 				playbeats.checked = false;
 			}
 			beatcount = beatcount_input.value;
-      let now = performance.now().toFixed(2);//new Date().getTime();
+      let now = performance.now().toFixed(2);
 
 		//let timetoreset = 5 * 1000; // milliseconds to reset
 			// first click in a while
@@ -258,11 +259,14 @@
       }
 
 
-
-			//this.ontouchmove = this.onmousemove= 
+		this.ontouchmove = this.onmousemove= function(e) {
+			e.preventDefault();
+		}
+		
 			this.onmouseup = //this.onmouseout = 
 			this.ontouchend = this.ontouchcancel =
 			function(e) {
+			e.preventDefault();
 				clearTimeout(delay);
 				visualbeep.classList.remove("longpress");
 			}
@@ -324,12 +328,7 @@ function beep({ dobeep = true } = {}) {
   g.connect(actx.destination);
   if (dobeep) {
 
-    /*
 
-      // flash icon
-    if (audioswitch) {
-    }
-    */
 		vbeep();
 
     console.log("beeping");
@@ -339,8 +338,6 @@ function beep({ dobeep = true } = {}) {
     g.gain.setTargetAtTime(defgain, actx.currentTime + 0.15, 0);
   }
 }
-
-
 
 function vbeep() {
   visualbeep.classList.add("beep");
