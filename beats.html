@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>beats</title>
+  <style>
+    #btn {
+      display: inline-block;
+      font-size: 20pt;
+      width:10em;
+      height: 5em;
+    }
+
+  </style>
+</head>
+
+<body>
+
+
+  <button id="btn">Tlack</button>
+  <div id="out"></div>
+
+
+  <script>
+    let btn = document.querySelector("#btn");
+    let out = document.querySelector("#out");
+
+    let beatcount = 10;
+
+    let beats = [];
+    btn.onclick = function (e) {
+      let now = new Date().getTime();
+      beats.push(now);
+      if (beats.length > beatcount) beats.shift();
+
+      let seconds = (beats[beats.length-1] - beats[0])/1000;
+
+    let minute = seconds / 60;
+
+    let bpm = ((beats.length-1)/minute).toFixed(2);
+
+      out.innerHTML = beats.toString().replace(/,/g,"<br/>\n") + `<hr\>${seconds.toFixed(2)},${minute.toFixed(2)}<br/>\nBPM: ${bpm}`;
+
+      
+      
+
+      // console.log(now);
+    }
+
+
+  </script>
+</body>
+
+</html>
